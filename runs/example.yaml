@@ -1,0 +1,50 @@
+### Paths
+input_dataset_path: './data/input_1024_20_relion_contrast/'
+checkpoints_path: './checkpoints/example/'
+### Parameters
+wandb_project: 'Cryo-EMMAE'
+wandb_id: 'example'
+standarization: True
+random_resized_crop: False
+rrc_crop_range: [0.08,0.25]
+### Model Parameters
+img_size: 64
+drop_path: 0.1
+patch_size: 4
+ #Encoder
+embed_dim: 192
+depth: 14
+num_heads: 1
+ #Decoder
+decoder_embed_dim: 128
+decoder_depth: 7
+decoder_num_heads: 8
+mlp_ratio: 2.0
+mask_ratio: 0.50
+pos_encode_weight: 0.08
+initial_img_length: 1024
+patches_num: 16
+initial_img_patches_num: 256
+### Training Parameters
+training_batch_size: 20
+learning_rate: false
+base_learning_rate: 0.001
+layer_decay: 0.75
+minimum_learning_rate: 1e-06
+warmup_epochs: 5
+accum_iter: 1
+weight_decay: 1e-05
+keep_checkpoints: 50
+load_model: false
+starting_epoch: 1
+num_epochs: 500
+shuffle: true
+num_workers: 8
+pin_memory: true
+###  Other Parameters
+device: 'cuda:0'
+parallel: false
+value_cap: 0.5
+save_image_per_epoch: 10
+keep_training_image: 80
+
