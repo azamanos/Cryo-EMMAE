@@ -44,13 +44,14 @@ Extract the files in the main directory of the project.
 ## Usage
 
 ### Preprocess data
-To preprocess your data (currently supporting image format, MRC format will be supported on future releases),
-give input image directory,
+To preprocess your data (supporting image format and MRC format),
+give micrograph image directory,
 the particle diameter of your protein in pixels of the original micrograph shape,
 and the output directory to save the preprocessed micrographs.
 
 ```bash
-python preprocess.py --images-directory 'input_directory_path'
+python preprocess.py --micrographs-directory 'input_directory_path'
+                     --mrc-type 'True if mrc file type, False if image file type'
                      --particle-diameter 'particle diameter as integer,
                                           in pixel size of the original image, e.g. 224'
                      --output-directory 'output_directory_path/'
