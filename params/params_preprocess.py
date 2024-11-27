@@ -11,6 +11,7 @@ def get_args():
     parser.add_argument('--resize-shape', type=int, default=1024, help='Resize shape')
     parser.add_argument('--particle-diameter', type=int, default=None, required=True,help='Particle diameter in pixels for the original shape')
     parser.add_argument('--output-directory', type=str, default=None, required=True,help='Directory to output processed images')
+    parser.add_argument('--dataset-ID', type=str, default=None, required=True,help='Dataset ID, saves particle diameter and original shape for use during prediction')
 
     args = parser.parse_args()
 

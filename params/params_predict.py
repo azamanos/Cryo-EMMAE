@@ -41,6 +41,9 @@ def get_args():
     parser.add_argument('--prediction-set-path', type=str, default=None, required=True, help='Path to npy file array with images names of your prediction set')
     parser.add_argument('--remove-embeddings-directory', type=bool, default=True, help='Argument to remove predicted embeddings, default True')
 
+    parser.add_argument('--particle-diameter', type=int, default=None, required=False,help='Particle diameter in pixels for the original shape')
+    parser.add_argument('--dataset-ID', type=str, default=None, required=True,help='Dataset ID, saves particle diameter and original shape for use during prediction')
+
     # Other Parameters
     parser.add_argument('--device', type=str, default='cuda:0', help='Device')
 

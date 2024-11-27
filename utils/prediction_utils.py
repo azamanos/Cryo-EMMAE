@@ -194,7 +194,11 @@ def window_embedding(image, image_emb, particle_diameter_512, config):
     np.ndarray
         A 2D array of the same shape as `image_emb` containing the smoothed latent embeddings.
     """
-    pd = int(particle_diameter_512[image[:5]] // 8)
+    try:
+        pd = particle_diameter_512[image[:5]]
+    except:
+        pd = particle_diameter_512
+    pd = int(pd // 8)
     w = 4
     if w > pd:
         w = 2
@@ -425,12 +429,72 @@ def remove_duplicates(predicted_coords, predicted_weights, dist, batch_size = 50
                 todelete.append(j)
     return np.unique(todelete)
 
-def pick_particles(pred_c, v_ids, experiment, dset_name, res, cap_values, particle_diameter_512, path_to_save=None):
+def write_star_file(star_file_name, data_particles):
+    """
+    Writes a STAR (Self-Defining Text Archiving and Retrieval) file with a specific header and particle data.
+
+    Parameters
+    ----------
+    star_file_name : str
+        The name of the STAR file to be created, including its path if necessary.
+    data_particles : list
+        A list of strings, where each string corresponds to a row of particle data to be written to the file. Each row typically represents
+        a particle's metadata, such as coordinates and associated micrograph.
+
+    File Format
+    -----------
+    The function writes the file in the following format:
+    - A predefined header specifying the data type and column names:
+        ```
+        data_particles
+
+        loop_
+        _rlnMicrographName #1
+        _rlnCoordinateX #2
+        _rlnCoordinateY #3
+        ```
+    - Followed by the rows of `data_particles`.
+
+    Example
+    -------
+    ```python
+    star_file_name = "output.star"
+    data_particles = [
+        "micrograph_001.mrc 1234.56 789.10",
+        "micrograph_002.mrc 2234.56 1789.10"
+    ]
+    write_star_file(star_file_name, data_particles)
+    ```
+    This would create a `output.star` file with the predefined header followed by the data rows provided in `data_particles`.
+
+    Notes
+    -----
+    - This function assumes the input list `data_particles` contains properly formatted strings.
+    - Any existing file with the same name as `star_file_name` will be overwritten.
+    """
+    data_particles_columns = ['',
+                              'data_particles',
+                              '',
+                              'loop_',
+                              '_rlnMicrographName #1 ',
+                              '_rlnCoordinateX #2 ',
+                              '_rlnCoordinateY #3 ',]
+    #Open and write the star file
+    with open(star_file_name, 'w') as f:
+        for line in data_particles_columns:
+            f.write(f'{line}\n')
+        for line in data_particles:
+            f.write(f'{line}\n')
+
+def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values, particle_diameter_512, path_to_save=None):
     """
     Picks particles from the predicted cluster masks using post-processing techniques.
 
     Parameters
     ----------
+    config : object
+        An object containing variable configurations for the prediction.
+
     pred_c : np.ndarray
         Array containing predicted cluster masks for the images.
 
@@ -456,8 +520,12 @@ def pick_particles(pred_c, v_ids, experiment, dset_name, res, cap_values, partic
     -------
     None
     """
+    star_file = []
     for im_i, im_arr in enumerate(pred_c[:]):
-        k_ = particle_diameter_512[v_ids[im_i][:5]]
+        try:
+            k_ = particle_diameter_512[v_ids[im_i][:5]]
+        except:
+            k_ = particle_diameter_512
         p_diameter_cubed = k_ ** 2
         k = int(k_)
         if k % 2:
@@ -509,8 +577,14 @@ def pick_particles(pred_c, v_ids, experiment, dset_name, res, cap_values, partic
         for lci, lc in enumerate(labels_coords_):
             x_i, y_i = np.round(lc).astype(int)
             im_out.append([x_i, y_i, k2, coords_weight_[lci]])
+            #Keep info for star file
+            l,c = config.mshape[0]-(2*float(x_i)*config.recover_resize_coeff[0]), 2*float(y_i)*config.recover_resize_coeff[1]
+            star_file.append(f"{v_ids[im_i].split('.')[0]}.mrc {l} {c}")
+            ###
         np.save(f"{path_to_save}{v_ids[im_i].split('.')[0]}.npy", np.array(im_out))
         print(im_i+1, end='\r')
+    #Write star file
+    write_star_file(f'./results/star_files/prediction_{experiment}_{dset_name}_{res}.star', star_file)
 
 #Particle diameter when original micrograph has been resized at (512,512)
 particle_diameter_512 = {'10028': 28.0,'10081': 21.252830188679244,'10590': 21.804851752021563,'10096': 11.592452830188678,\

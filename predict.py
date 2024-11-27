@@ -29,6 +29,14 @@ def main():
     #Set experiment descriptive name
     if not config.prediction_description:
         config.prediction_description = str(config.experiment)
+    #Load micrograph and particle parameters
+    preprocess_info = np.load(f'./results/preprocess_info/{config.dataset_ID}.npy')
+    config.mshape, config.recover_resize_coeff = preprocess_info[:2], preprocess_info[3:]
+    if not config.particle_diameter:
+        try:
+            config.pd_512 = preprocess_info[2]/2
+        except:
+            config.pd_512 = particle_diameter_512
     #Initialize model
     model = MaskedAutoencoderViT(img_size=config.img_size, patch_size=config.patch_size, in_chans = 1,
                                  embed_dim=config.embed_dim, depth=config.depth, num_heads=config.num_heads,
@@ -82,12 +90,12 @@ def main():
         np.save(f'{temp_embeddings_path}{image.split(".")[0]}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
     print('Computing Segmentation Map of Prediction Set.')
     #Predict particles segmentation maps for you set
-    prediction_maps = predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cluster, config, particle_diameter_512)
+    prediction_maps = predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cluster, config, config.pd_512)
     print('Done')
     #Predict particles
     cap_values = list(np.round(np.linspace(1,0.0,30),2))
     print('Pick Particles for Prediction Set.')
-    pick_particles(prediction_maps, prediction_set, config.experiment, config.prediction_description, config.initial_img_length, cap_values, particle_diameter_512,\
+    pick_particles(config, prediction_maps, prediction_set, config.experiment, config.prediction_description, config.initial_img_length, cap_values, config.pd_512,\
                    f'./results/prediction_{config.experiment}_{config.prediction_description}_{config.initial_img_length}_npy/')
     print('Done')
     if config.remove_embeddings_directory:

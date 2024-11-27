@@ -32,8 +32,14 @@ def main():
         if config.mrc_type:
             m = MRC(f'{config.micrographs_directory}{micrograph}')
             m = normalize_array(m.data[:,:,0])*255
+            m = np.moveaxis(m, 0,1)
+            m = np.flip(m,0)
         else:
             m = np.array(Image.open(f'{config.micrographs_directory}{micrograph}'))
+        #Save micrograph parameters
+        recover_resize_coeff = [m.shape[0]/config.resize_shape, m.shape[1]/config.resize_shape]
+        pd_resized = max(config.particle_diameter/recover_resize_coeff[0], config.particle_diameter/recover_resize_coeff[1])
+        np.save(f'./results/preprocess_info/{config.dataset_ID}.npy', [m.shape[0], m.shape[1], pd_resized, recover_resize_coeff[0], recover_resize_coeff[1]])
         micrograph_name = str(micrograph.split('.')[0])
         relion_and_contrast_preprocess(m, particle_diameter_even, config.output_directory, micrograph_name, config.resize_shape)
         ctime = time.time()
