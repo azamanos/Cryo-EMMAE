@@ -7,7 +7,6 @@ def get_args():
     parser.add_argument('-c','--config_file', type=str, default=None, help='Path to YAML config file')
 
     # Paths
-    parser.add_argument('--input_dataset_path', type=str, help='Path to input dataset')
     parser.add_argument('--target_dataset_path', type=str, help='Path to target dataset')
     parser.add_argument('--train_data_list', type=str, help='Path to train data list')
     parser.add_argument('--validation_data_list', type=str, help='Path to validation data list')
@@ -35,14 +34,15 @@ def get_args():
     parser.add_argument('--initial_img_patches_num', type=int, default=64, help='Number of patches of the initial image')
 
     # Prediction Parameters
-    parser.add_argument('--experiment', type=int, default=None, required=True,help='Experiment number to load')
-    parser.add_argument('--epoch', type=int, default=None, required=True, help='Number of epoch to load')
-    parser.add_argument('--prediction-description', type=str, default=None, required=True, help='Predictions descriptive name')
-    parser.add_argument('--prediction-set-path', type=str, default=None, required=True, help='Path to npy file array with images names of your prediction set')
-    parser.add_argument('--remove-embeddings-directory', type=bool, default=True, help='Argument to remove predicted embeddings, default True')
+    parser.add_argument('--ec', type=int, default=None, required=True,help='Experiment checkpoint number to load')
+    parser.add_argument('--e', type=int, default=None, required=True, help='Number of epoch to load')
+    parser.add_argument('--pde', type=str, default=None, required=False, help='Predictions descriptive name')
+    parser.add_argument('--ip', type=str, default=None, required=True, help='Provide the image path of your preprocessed mrc files.')
+    parser.add_argument('--il', type=str, default=None, required=False, help='Provide image list in npy format file of your preprocessed mrc files.')
+    parser.add_argument('--red', type=bool, default=True, help='Argument to remove predicted embeddings, default True')
 
-    parser.add_argument('--particle-diameter', type=int, default=None, required=False,help='Particle diameter in pixels for the original shape')
-    parser.add_argument('--dataset-ID', type=str, default=None, required=True,help='Dataset ID, saves particle diameter and original shape for use during prediction')
+    parser.add_argument('--pd', type=int, default=None, required=False,help='Particle diameter in pixels for the original shape')
+    parser.add_argument('--id', type=str, default=None, required=True,help='Dataset ID, saves particle diameter and original shape for use during prediction')
 
     # Other Parameters
     parser.add_argument('--device', type=str, default='cuda:0', help='Device')

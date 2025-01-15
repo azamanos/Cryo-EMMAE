@@ -50,37 +50,48 @@ the particle diameter of your protein in pixels of the original micrograph shape
 and the output directory to save the preprocessed micrographs.
 
 ```bash
-python preprocess.py --micrographs-directory 'input_directory_path'
-                     --mrc-type 'True if mrc file type, False if image file type'
-                     --particle-diameter 'particle diameter as integer,
-                                          in pixel size of the original image, e.g. 224'
-                     --output-directory 'output_directory_path/'
+python preprocess.py --md 'input_directory_path' \
+                     --t  'True if mrc file type, False if image file type, default is True' \
+                     --pd 'particle diameter as integer,
+                                          in pixel size of the original image, e.g. 224, default is 200' \
+                     --od 'output_directory_path/' \
+                     --id 'Give an identifier to your dataset'
+
+#Example
+python preprocess.py --md 'test/mrcs/' --od 'test/images/' --id 'test'
 ```
+
+### Predict
+Pick particles, given the yaml file, the experiment number, the according epoch for the checkpoint and the path to the list of the images to be predicted in npy format file.
+This function also outputs the star file for the predicted coordinates at the directory "/results/star_files/".
+
+```bash
+python predict.py -c runs/example.yaml \
+                  --ec  'Experiment checkpoint number to load' \
+                  --e   'Number of epoch to load' \
+                  --ip  'Provide the image path of your preprocessed mrc files.' \
+                  --id  'Give the identifier of your dataset'
+
+#Example
+python predict.py -c runs/82.yaml --ec '82' --e '400' --ip 'test/images/' --id 'test'
+```
+
 ### Train
 To train the model prepare your yaml file from the given example.
 
 ```bash
 python train.py -c runs/example.yaml
 ```
-### Predict
-Pick particles, given the yaml file, the experiment number, the according epoch for the checkpoint and the path to the list of the images to be predicted in npy format file.
 
-```bash
-python predict.py -c runs/example.yaml
-                  --experiment 'example'
-                  --epoch 400 --prediction-description 'example_prediction_set'
-                  --prediction-set-path 'path to prediction list in npy format,
-                                         e.g. ./datasets/data_lists/10291_validation.npy'
-```
 ### Evaluate
 Evaluate the picked particles based on the ground truth data, uploaded at the zenodo link under the results.zip file.
 Give the same experiment, prediction-description, and prediction-set-path as in prediction step, the ground-truth-path is in default at "./results/target_512_20_npy/"
 
 ```bash
-python evaluate.py  --experiment 'example'
-                    --prediction-description 'example_prediction_set'
+python evaluate.py  --experiment 'example' \
+                    --prediction-description 'example_prediction_set' \
                     --prediction-set-path 'path to prediction list in npy format,
-                                           e.g. ./datasets/data_lists/10291_validation.npy'
+                                           e.g. ./datasets/data_lists/10291_validation.npy' \
                     --ground-truth-path './results/target_512_20_npy/'
 ```
 
@@ -102,4 +113,4 @@ For queries and suggestions, please contact: andreas.zamanos@athenarc.gr
 <a id="citing-this-work"></a>
 ## Citing this work
 
-If you use this code in your research, please cite the repository.
+If you use this code in your research, please cite the original work.

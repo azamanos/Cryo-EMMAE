@@ -1,0 +1,80 @@
+### Paths
+input_dataset_path: '/home/azamanos/projects/data/input_1024_20_relion_contrast/'
+validation_dataset_path: '/home/azamanos/projects/data/input_1024_20_relion_contrast/'
+target_dataset_path: '/home/azamanos/projects/data/input_1024_20_relion_contrast/'
+train_data_list: './datasets/data_lists/10291_train.npy'
+validation_data_list: './datasets/data_lists/10291_validation.npy'
+checkpoints_path: './checkpoints/82/'
+### Parameters
+wandb_project: 'Cryo-MAE'
+wandb_id: 'cryo-mae_82_M_1024_FOV_64_P_256_PP_4_10291_set_maester_bs_128_mask_050_warmup_5_relion_contrast_standarization'
+standarization: True
+random_resized_crop: False
+rrc_crop_range: [0.04,0.25]
+particle_diameter:
+  '10028': 28.0
+  '10081': 21.252830188679244
+  '10590': 21.804851752021563
+  '10096': 11.592452830188678
+  '10760': 14.628571428571428
+  '10240': 21.528840970350405
+  '10406': 29.257142857142856
+  '10669': 50.37196765498652
+  '10289': 22.35687331536388
+  '10532': 21.75
+  '10077': 27.0
+  '10737': 22.396871945259043
+  '10017': 13.5
+  '10291': 17.940700808625337
+  '10061': 32.50026954177898
+  '10059': 18.216711590296494
+  '11183': 19.89442815249267
+  '10184': 16.28463611859838
+  '10816': 24.771967654986522
+  '10075': 29.125
+  '10444': 29.15347018572825
+  '11056': 29.15347018572825
+  '10671': 29.15347018572825
+  '11057': 29.15347018572825
+  '10576': 16.077628032345014
+### Model Parameters
+img_size: 64
+drop_path: 0.1
+patch_size: 4
+ #Encoder
+embed_dim: 192
+depth: 14
+num_heads: 1
+ #Decoder
+decoder_embed_dim: 128
+decoder_depth: 7
+decoder_num_heads: 8
+mlp_ratio: 2.0
+mask_ratio: 0.50
+pos_encode_weight: 0.08
+initial_img_length: 1024
+patches_num: 16
+initial_img_patches_num: 256 #Leave it 64 to be comparable with previous experiments
+### Training Parameters
+training_batch_size: 128
+learning_rate: false
+base_learning_rate: 0.001
+layer_decay: 0.75
+minimum_learning_rate: 1e-06
+warmup_epochs: 5
+accum_iter: 1
+weight_decay: 1e-05
+keep_checkpoints: 50
+load_model: false
+starting_epoch: 1
+num_epochs: 400
+shuffle: true
+num_workers: 8
+pin_memory: true
+###  Other Parameters
+device: 'cuda:0'
+parallel: false
+value_cap: 0.5
+save_image_per_epoch: 10
+keep_training_image: 80
+

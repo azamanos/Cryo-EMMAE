@@ -10,18 +10,20 @@ def main():
     #First load the arguments
     config = get_args()
     #If there is a given list
-    if config.micrographs_list:
-        micrographs_list = config.micrographs_list
+    if config.ml:
+        micrographs_list = config.ml
     else:
         #All images in the given directory are going to be processed
-        micrographs_list = os.listdir(config.micrographs_directory)
+        micrographs_list = os.listdir(config.md)
+    if not os.path.exists(config.od):
+        os.mkdir(config.od)
     #Lenght of image list
     m_list_len = len(micrographs_list)
     #Secure that particle diameter is even number
-    if config.particle_diameter%2:
-        particle_diameter_even = config.particle_diameter + 1
+    if config.pd%2:
+        particle_diameter_even = config.pd + 1
     else:
-        particle_diameter_even = config.particle_diameter
+        particle_diameter_even = config.pd
     #Starting time
     stime = time.time()
     #For each micrograph
@@ -29,21 +31,22 @@ def main():
         #Micrograph time
         mtime = time.time()
         #Load micrograph image
-        if config.mrc_type:
-            m = MRC(f'{config.micrographs_directory}{micrograph}')
+        if config.t:
+            m = MRC(f'{config.md}{micrograph}')
             m = normalize_array(m.data[:,:,0])*255
             m = np.moveaxis(m, 0,1)
             m = np.flip(m,0)
         else:
-            m = np.array(Image.open(f'{config.micrographs_directory}{micrograph}'))
+            m = np.array(Image.open(f'{config.md}{micrograph}'))
         #Save micrograph parameters
-        recover_resize_coeff = [m.shape[0]/config.resize_shape, m.shape[1]/config.resize_shape]
-        pd_resized = max(config.particle_diameter/recover_resize_coeff[0], config.particle_diameter/recover_resize_coeff[1])
-        np.save(f'./results/preprocess_info/{config.dataset_ID}.npy', [m.shape[0], m.shape[1], pd_resized, recover_resize_coeff[0], recover_resize_coeff[1]])
+        recover_resize_coeff = [m.shape[0]/config.rs, m.shape[1]/config.rs]
+        pd_resized = max(config.pd/recover_resize_coeff[0], config.pd/recover_resize_coeff[1])
+        np.save(f'./results/preprocess_info/{config.id}.npy', [m.shape[0], m.shape[1], pd_resized, recover_resize_coeff[0], recover_resize_coeff[1]])
         micrograph_name = str(micrograph.split('.')[0])
-        relion_and_contrast_preprocess(m, particle_diameter_even, config.output_directory, micrograph_name, config.resize_shape)
+        relion_and_contrast_preprocess(m, particle_diameter_even, config.od, micrograph_name, config.rs)
         ctime = time.time()
         print(f'Micrograph {mi+1}/{m_list_len} was processed in {round(ctime-mtime,2)} seconds, total minutes passed {round((ctime-stime)/60,2)}.',end='\r')
+    print(f'Micrograph {mi+1}/{m_list_len} was processed in {round(ctime-mtime,2)} seconds, total minutes passed {round((ctime-stime)/60,2)}.')
     return
 
 if __name__ == '__main__':

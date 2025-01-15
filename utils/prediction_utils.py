@@ -16,7 +16,7 @@ def compute_mean_and_std(config):
     config : object
         An object containing the configuration for the function. It must have the following attributes:
         - train_data_list (list): A list of image identifiers (usually filenames or relative paths) that specify the images to be processed.
-        - input_dataset_path (str): A string representing the path to the directory containing the images.
+        - ip (str): A string representing the path to the directory containing the images.
 
     Returns
     -------
@@ -28,7 +28,7 @@ def compute_mean_and_std(config):
     x = []
     for image_id in config.train_data_list:
         #Load image-target and append
-        x_temp = np.array(Image.open(f'{config.input_dataset_path}{image_id}'))/255
+        x_temp = np.array(Image.open(f'{config.ip}{image_id}'))/255
         x += list(x_temp)
     x = np.array(x)
     return x.mean(), x.std()
@@ -44,7 +44,7 @@ def compute_image_latent_embeddings(dataset, config, model, predict=False, low_p
 
     config : object
         An object containing the configuration for the function. It must have the following attributes:
-        - input_dataset_path (str): Path to the directory containing the images.
+        - ip (str): Path to the directory containing the images.
         - initial_img_patches_num (int): Number of initial image patches.
         - img_size (int): Size of the image.
         - mean (float): Mean pixel value for normalization.
@@ -73,7 +73,7 @@ def compute_image_latent_embeddings(dataset, config, model, predict=False, low_p
     x = []
     for image_id in dataset:
         #Load image-target and append
-        x_temp = Image.open(f'{config.input_dataset_path}{image_id}')
+        x_temp = Image.open(f'{config.ip}{image_id}')
         if resize:
             x_temp = x_temp.resize((resize,resize), Image.BILINEAR)
             x_temp = normalize_array(np.array(x_temp))
@@ -144,7 +144,7 @@ def find_particles_cluster(kmeans, res, config, model, cl=4):
 
     config : object
         An object containing the configuration for the function. It must have the following attributes:
-        - input_dataset_path (str): Path to the directory containing the images.
+        - ip (str): Path to the directory containing the images.
         - patch_size (int): Size of the patches to be used in the embedding process.
         - embed_dim (int): Dimensionality of the embeddings.
 
@@ -159,11 +159,11 @@ def find_particles_cluster(kmeans, res, config, model, cl=4):
     int
         The cluster number associated with particles in the image.
     """
-    temp_idp = config.input_dataset_path
-    config.input_dataset_path = './params/'
+    temp_idp = config.ip
+    config.ip = './params/'
     x = compute_image_latent_embeddings([f'input_example.png'], config, model, predict=True)
-    x_c = np.array(Image.open(f'{config.input_dataset_path}target_example.png')) / 255
-    config.input_dataset_path = temp_idp
+    x_c = np.array(Image.open(f'{config.ip}target_example.png')) / 255
+    config.ip = temp_idp
     x = x.reshape(-1, config.embed_dim)
     x = (kmeans.predict(x) + 1).reshape(res // config.patch_size, res // config.patch_size)
     clst, clst_counts = np.unique(x_c * x, return_counts=True)
@@ -291,7 +291,7 @@ def predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cl
 
     config : object
         An object containing the configuration for the function. It must have the following attributes:
-        - prediction_description (str): Description of the experiment, used for naming the results directory.
+        - pde (str): Description of the experiment, used for naming the results directory.
 
     particle_diameter_512 : dict
         Dictionary mapping image identifiers to particle diameters.
@@ -321,7 +321,7 @@ def predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cl
     print(f'{image_i+1} particle maps have been predicted.')
     prediction_maps = np.array(prediction_maps)
     # Save mask
-    path_to_save_maps = f'./results/cluster_k5_{config.prediction_description}/'
+    path_to_save_maps = f'./results/predicted_cluster_images/kmean_5_{config.pde}/'
     if not os.path.exists(path_to_save_maps):
         os.mkdir(path_to_save_maps)
     for i, ii in enumerate(prediction_maps):
@@ -584,7 +584,7 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
         np.save(f"{path_to_save}{v_ids[im_i].split('.')[0]}.npy", np.array(im_out))
         print(im_i+1, end='\r')
     #Write star file
-    write_star_file(f'./results/star_files/prediction_{experiment}_{dset_name}_{res}.star', star_file)
+    write_star_file(f'./results/star_files/prediction_{dset_name}.star', star_file)
 
 #Particle diameter when original micrograph has been resized at (512,512)
 particle_diameter_512 = {'10028': 28.0,'10081': 21.252830188679244,'10590': 21.804851752021563,'10096': 11.592452830188678,\
