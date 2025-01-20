@@ -22,8 +22,8 @@ def main():
     #torch.set_num_threads(1)
     #First load the arguments
     config = get_args()
-    config.train_data_list = np.load(config.train_data_list)
-    config.validation_data_list = np.load(config.validation_data_list)
+    config.train_data_list = os.listdir(config.input_dataset_path)
+    config.validation_data_list = os.listdir(config.input_dataset_path)
     config.keep_training_image = int(len(config.train_data_list)*config.initial_img_patches_num/config.training_batch_size)-1
     if config.random_resized_crop:
         config.rrc = torchvision.transforms.RandomResizedCrop((config.img_size,config.img_size),scale=config.rrc_crop_range,antialias=True)

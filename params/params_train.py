@@ -8,9 +8,9 @@ def get_args():
 
     # Paths
     parser.add_argument('--input_dataset_path', type=str, help='Path to input dataset')
-    parser.add_argument('--target_dataset_path', type=str, help='Path to target dataset')
-    parser.add_argument('--train_data_list', type=str, help='Path to train data list')
-    parser.add_argument('--validation_data_list', type=str, help='Path to validation data list')
+    #parser.add_argument('--target_dataset_path', type=str, help='Path to target dataset')
+    #parser.add_argument('--train_data_list', type=str, help='Path to train data list')
+    #parser.add_argument('--validation_data_list', type=str, help='Path to validation data list')
 
     # Parameters
     parser.add_argument('--wandb_project', type=str, default='Cryo-MAE', help='Wandb project name')

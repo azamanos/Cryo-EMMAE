@@ -1,5 +1,5 @@
 ### Paths
-input_dataset_path: './data/input_1024_20_relion_contrast/'
+input_dataset_path: './test/images/'
 checkpoints_path: './checkpoints/example/'
 ### Parameters
 wandb_project: 'Cryo-EMMAE'

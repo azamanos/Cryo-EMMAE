@@ -28,10 +28,20 @@ Cryo-EMMAE leverages the representation space of a masked autoencoder to sequent
 <a id="Installation-(Linux)"></a>
 ## Installation (Linux)
 
-1\. Create the emmae environment by running the following command in your terminal:
+1\. Create the emmae environment by running the following commands in your terminal:
+
 ```bash
-conda env create -f ./emmae.yaml
+# create env
+conda create -n emmae python=3.10
+conda activate emmae
+
+# pytorch
+pip install torch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2
+
+# rest libraries
+pip install huggingface-hub==0.23.3 scipy==1.11.4 opencv-python==4.10.0.82 scikit-learn==1.2.2 timm==1.0.3 tqdm==4.66.4 jupyter wandb==0.16.5
 ```
+
 2\. Whenever you want to work on the project, activate the emmae environment by executing the following command in the terminal:
 
 ```bash
