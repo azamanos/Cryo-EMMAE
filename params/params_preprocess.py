@@ -12,6 +12,7 @@ def get_args():
     parser.add_argument('--pd', type=int, default=200, required=False,help='Particle diameter in pixels for the original shape')
     parser.add_argument('--od', type=str, default=None, required=True,help='Directory to output processed images')
     parser.add_argument('--id', type=str, default=None, required=True,help='Dataset identifier, saves particle diameter and original shape for use during prediction')
+    parser.add_argument('--cpmc', type=bool, default=False, help='Make this True in case you want to preprocess motion corrected micrographs from CryoSparc job.')
 
     args = parser.parse_args()
 

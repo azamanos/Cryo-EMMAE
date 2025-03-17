@@ -13,8 +13,11 @@ def main():
     if config.ml:
         micrographs_list = np.load(config.ml)
     else:
-        #All images in the given directory are going to be processed
-        micrographs_list = os.listdir(config.md)
+        if config.cpmc:
+            micrographs_list = [i for i in os.listdir(config.md) if i[-30:] == 'patch_aligned_doseweighted.mrc']
+        else:
+            #All images in the given directory are going to be processed
+            micrographs_list = os.listdir(config.md)
     if not os.path.exists(config.od):
         os.mkdir(config.od)
     #Lenght of image list
@@ -42,7 +45,7 @@ def main():
         recover_resize_coeff = [m.shape[0]/config.rs, m.shape[1]/config.rs]
         pd_resized = max(config.pd/recover_resize_coeff[0], config.pd/recover_resize_coeff[1])
         np.save(f'./results/preprocess_info/{config.id}.npy', [m.shape[0], m.shape[1], pd_resized, recover_resize_coeff[0], recover_resize_coeff[1]])
-        if micrograph[-30:] == 'patch_aligned_doseweighted.mrc':
+        if micrograph[-30:] == 'patch_aligned_doseweighted.mrc' or config.cpmc:
             micrograph = "_".join(micrograph.split('_')[1:])
         micrograph_name = ".".join(micrograph.split('.')[:-1])
         relion_and_contrast_preprocess(m, particle_diameter_even, config.od, micrograph_name, config.rs)
