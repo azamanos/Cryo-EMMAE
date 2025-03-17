@@ -83,7 +83,7 @@ python predict.py -c runs/example.yaml \
                   --id  'Give the identifier of your dataset'
 
 #Example
-python predict.py -c runs/82.yaml --ec '82' --e '400' --ip 'test/images/' --id 'test'
+python predict.py -c runs/45.yaml --ec '45' --e '500' --ip 'test/images/' --id 'test'
 ```
 
 ### Train
