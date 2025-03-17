@@ -528,6 +528,7 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
             k_ = particle_diameter_512
         p_diameter_cubed = k_ ** 2
         k = int(k_)
+        micrograph_name = ".".join(v_ids[im_i].split('.')[:-1])
         if k % 2:
             k += 1
         k2 = int(k // 2)
