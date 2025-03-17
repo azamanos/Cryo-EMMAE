@@ -34,6 +34,8 @@ def main():
     config.mshape, config.recover_resize_coeff = preprocess_info[:2], preprocess_info[3:]
     if not config.pd:
         config.pd_512 = preprocess_info[2]/2
+    else:
+        config.pd_512 = max((config.pd/config.recover_resize_coeff[0])//2, (config.pd/config.recover_resize_coeff[1])//2)
     #Initialize model
     model = MaskedAutoencoderViT(img_size=config.img_size, patch_size=config.patch_size, in_chans = 1,
                                  embed_dim=config.embed_dim, depth=config.depth, num_heads=config.num_heads,
