@@ -578,7 +578,8 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
             x_i, y_i = np.round(lc).astype(int)
             im_out.append([x_i, y_i, k2, coords_weight_[lci]])
             #Keep info for star file
-            l,c = config.mshape[0]-(2*float(x_i)*config.recover_resize_coeff[0]), 2*float(y_i)*config.recover_resize_coeff[1]
+            #l,c = config.mshape[0]-(2*float(x_i)*config.recover_resize_coeff[0]), 2*float(y_i)*config.recover_resize_coeff[1]
+            l,c = 2*float(y_i)*config.recover_resize_coeff[1], config.mshape[0]-(2*float(x_i)*config.recover_resize_coeff[0])
             micrograph_name = ".".join(v_ids[im_i].split('.')[:-1])
             star_file.append(f"{micrograph_name}.mrc {l} {c}")
             ###
