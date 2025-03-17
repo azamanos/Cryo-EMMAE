@@ -17,7 +17,10 @@ def main():
             micrographs_list = [i for i in os.listdir(config.md) if i[-30:] == 'patch_aligned_doseweighted.mrc']
         else:
             #All images in the given directory are going to be processed
-            micrographs_list = os.listdir(config.md)
+            if config.t:
+                micrographs_list = [i for i in os.listdir(config.md) if i[-4:] == '.mrc']
+            else:
+                micrographs_list = os.listdir(config.md)
     if not os.path.exists(config.od):
         os.mkdir(config.od)
     #Lenght of image list

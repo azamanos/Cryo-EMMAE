@@ -81,7 +81,7 @@ def main():
     if config.il is not None:
         m_images = np.load(config.il)
     else:
-        m_images = os.listdir(config.ip)
+        m_images = [i for i in os.listdir(config.ip) if i[-4:] == '.png']
     #Predict the embeddings for your set
     temp_embeddings_path = './results/temp_embeddings/'
     if not os.path.exists(temp_embeddings_path):
