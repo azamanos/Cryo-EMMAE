@@ -42,11 +42,9 @@ def main():
         recover_resize_coeff = [m.shape[0]/config.rs, m.shape[1]/config.rs]
         pd_resized = max(config.pd/recover_resize_coeff[0], config.pd/recover_resize_coeff[1])
         np.save(f'./results/preprocess_info/{config.id}.npy', [m.shape[0], m.shape[1], pd_resized, recover_resize_coeff[0], recover_resize_coeff[1]])
-        micrograph_name = micrograph.split('.')[:-1]
-        if len(micrograph_name)>1:
-            micrograph_name = ".".join(micrograph_name)
-        else:
-            micrograph_name = micrograph_name[0]
+        if micrograph[-30:] == 'patch_aligned_doseweighted.mrc':
+            micrograph = "_".join(micrograph.split('_')[1:])
+        micrograph_name = ".".join(micrograph.split('.')[:-1])
         relion_and_contrast_preprocess(m, particle_diameter_even, config.od, micrograph_name, config.rs)
         ctime = time.time()
         print(f'Micrograph {mi+1}/{m_list_len} was processed in {round(ctime-mtime,2)} seconds, total minutes passed {round((ctime-stime)/60,2)}.',end='\r')

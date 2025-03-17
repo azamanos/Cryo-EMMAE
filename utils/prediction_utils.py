@@ -579,11 +579,7 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
             im_out.append([x_i, y_i, k2, coords_weight_[lci]])
             #Keep info for star file
             l,c = config.mshape[0]-(2*float(x_i)*config.recover_resize_coeff[0]), 2*float(y_i)*config.recover_resize_coeff[1]
-            micrograph_name = v_ids[im_i].split('.')[:-1]
-            if len(micrograph_name)>1:
-                micrograph_name = ".".join(micrograph_name)
-            else:
-                micrograph_name = micrograph_name[0]
+            micrograph_name = ".".join(v_ids[im_i].split('.')[:-1])
             star_file.append(f"{micrograph_name}.mrc {l} {c}")
             ###
         np.save(f"{path_to_save}{micrograph_name}.npy", np.array(im_out))
