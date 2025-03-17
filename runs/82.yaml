@@ -54,7 +54,7 @@ mask_ratio: 0.50
 pos_encode_weight: 0.08
 initial_img_length: 1024
 patches_num: 16
-initial_img_patches_num: 256 #Leave it 64 to be comparable with previous experiments
+initial_img_patches_num: 256
 ### Training Parameters
 training_batch_size: 128
 learning_rate: false

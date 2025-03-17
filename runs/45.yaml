@@ -52,9 +52,9 @@ decoder_num_heads: 8
 mlp_ratio: 2.0
 mask_ratio: 0.50
 pos_encode_weight: 0.08
-initial_img_length: 512
+initial_img_length: 1024
 patches_num: 16
-initial_img_patches_num: 64 #Leave it 64 to be comparable with previous experiments
+initial_img_patches_num: 256 #Leave it 64 to be comparable with previous experiments
 ### Training Parameters
 training_batch_size: 128
 learning_rate: false
