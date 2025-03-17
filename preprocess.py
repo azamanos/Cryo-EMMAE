@@ -11,7 +11,7 @@ def main():
     config = get_args()
     #If there is a given list
     if config.ml:
-        micrographs_list = config.ml
+        micrographs_list = np.load(config.ml)
     else:
         #All images in the given directory are going to be processed
         micrographs_list = os.listdir(config.md)

@@ -86,6 +86,7 @@ def main():
     temp_embeddings_path = './results/temp_embeddings/'
     if not os.path.exists(temp_embeddings_path):
         os.mkdir(temp_embeddings_path)
+    print('Computing Embeddings of Micrographs.')
     for image in m_images:
         np.save(f'{temp_embeddings_path}{image.split(".")[0]}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
     print('Computing Segmentation Map of Prediction Set.')
