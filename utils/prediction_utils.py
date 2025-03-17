@@ -306,7 +306,7 @@ def predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cl
     # For each latent prediction in prediction set
     for image_i, image in enumerate(prediction_set):
         # Load prediction
-        image_emb = np.load(f'{temp_embeddings_path}{image.split(".")[0]}.npy')
+        image_emb = np.load(f'{temp_embeddings_path}{".".join(image.split(".")[:-1])}.npy')
         # Apply smoothing at the level of embedding
         image_emb = window_embedding(image, image_emb, particle_diameter_512, config)
         # Set training kmeans as the first kmeans
