@@ -88,7 +88,7 @@ def main():
         os.mkdir(temp_embeddings_path)
     print('Computing Embeddings of Micrographs.')
     for image in m_images:
-        np.save(f'{temp_embeddings_path}{image.split(".")[0]}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
+        np.save(f'{temp_embeddings_path}{".".join(image.split(".")[:-1])}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
     print('Computing Segmentation Map of Prediction Set.')
     #Predict particles segmentation maps for you set
     prediction_maps = predict_particles_maps(m_images, temp_embeddings_path, kmeans, your_cluster, config, config.pd_512)
