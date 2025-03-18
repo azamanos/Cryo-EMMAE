@@ -55,6 +55,7 @@ def main():
         ctime = time.time()
         elapsed_time, current_m_time = round((ctime-stime)/60,2), round(ctime-mtime,2)
         print(f'Micrograph {mi+1}/{m_list_len} was processed in {current_m_time:.2f} seconds, total minutes passed {elapsed_time:.2f}.',end='\r')
+    print(f'Micrograph {mi+1}/{m_list_len} was processed in {current_m_time:.2f} seconds, total minutes passed {elapsed_time:.2f}.')
     elapsed_time = round((ctime-stime)/60,2)
     print(f'Total time to preprocess {m_list_len} micrographs was {elapsed_time:.2f} minutes.')
     return

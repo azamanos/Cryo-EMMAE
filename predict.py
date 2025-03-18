@@ -95,6 +95,7 @@ def main():
         np.save(f'{temp_embeddings_path}{".".join(image.split(".")[:-1])}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
         elapsed_time = round((time.time() - emb_time) / 60, 2)
         print(f"Micrograph {mi+1}/{m_list_len} was processed, total minutes passed: {elapsed_time:.2f}.", end='\r')
+    print(f"Micrograph {mi+1}/{m_list_len} was processed, total minutes passed: {elapsed_time:.2f}.")
     elapsed_time = round((time.time() - emb_time) / 60, 2)
     print(f'Embeddings of {m_list_len} micrographs were processed in {elapsed_time:.2f} minutes.')
     print('Computing Segmentation Map of Prediction Set.')

@@ -322,6 +322,7 @@ def predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cl
         prediction_maps.append(prediction_cluster)
         elapsed_time = round((time.time() - seg_maps_time) / 60, 2)
         print(f"Segmentation map for {image_i+1}/{prediction_set_len} micrograph was processed, total minutes passed: {elapsed_time:.2f}.", end='\r')
+    print(f"Segmentation map for {image_i+1}/{prediction_set_len} micrograph was processed, total minutes passed: {elapsed_time:.2f}.")
     elapsed_time = round((time.time() - seg_maps_time) / 60, 2)
     print(f"Segmentation maps of {prediction_set_len} micrographs were processed in {elapsed_time:.2f} minutes.")
     prediction_maps = np.array(prediction_maps)
@@ -594,6 +595,7 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
         np.save(f"{path_to_save}{micrograph_name}.npy", np.array(im_out))
         elapsed_time = round((time.time() - particles_time) / 60, 2)
         print(f"Particles were picked for {im_i+1}/{pred_len} micrograph, total minutes passed: {elapsed_time:.2f}.", end='\r')
+    print(f"Particles were picked for {im_i+1}/{pred_len} micrograph, total minutes passed: {elapsed_time:.2f}.")
     elapsed_time = round((time.time() - particles_time) / 60, 2)
     print(f"Particles were picked for {pred_len} micrographs in {elapsed_time:.2f} minutes.")
     #Write star file
