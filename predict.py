@@ -21,6 +21,7 @@ from utils.prediction_utils import compute_mean_and_std, compute_kmeans_on_train
 
 
 def main():
+    st_time = time.time()
     #torch.set_num_threads(1)
     #First load the arguments
     config = get_args()
@@ -89,18 +90,23 @@ def main():
     if not os.path.exists(temp_embeddings_path):
         os.mkdir(temp_embeddings_path)
     print('Computing Embeddings of Micrographs.')
+    emb_time = time.time()
     for image in m_images:
         np.save(f'{temp_embeddings_path}{".".join(image.split(".")[:-1])}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
+        elapsed_time = round((time.time() - emb_time) / 60, 2)
+        print(f"Micrograph {mi+1}/{m_list_len} was processed, total minutes passed: {elapsed_time:.2f}.", end='\r')
+    elapsed_time = round((time.time() - emb_time) / 60, 2)
+    print(f'Embeddings of {m_list_len} micrographs were processed in {elapsed_time:.2f} minutes.')
     print('Computing Segmentation Map of Prediction Set.')
     #Predict particles segmentation maps for you set
     prediction_maps = predict_particles_maps(m_images, temp_embeddings_path, kmeans, your_cluster, config, config.pd_512)
-    print('Done')
     #Predict particles
     cap_values = list(np.round(np.linspace(1,0.0,30),2))
     print('Pick Particles for Prediction Set.')
     pick_particles(config, prediction_maps, m_images, config.ec, config.pde, config.initial_img_length, cap_values, config.pd_512,\
                    f'./results/npy_files/prediction_{config.pde}/')
-    print('Done')
+    elapsed_time = round((time.time() - st_time) / 60, 2)
+    print(f'Total time to process {m_images} micrographs and pick particles was {elapsed_time:.2f} minutes.')
     if config.red:
         os.system(f'rm {temp_embeddings_path} -rf')
     return

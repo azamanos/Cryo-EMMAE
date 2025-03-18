@@ -1,4 +1,5 @@
 import os
+import time
 import torch
 import joblib
 import numpy as np
@@ -304,6 +305,8 @@ def predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cl
     # Define prediction maps list
     prediction_maps = []
     # For each latent prediction in prediction set
+    seg_maps_time = time.time()
+    prediction_set_len = len(prediction_set)
     for image_i, image in enumerate(prediction_set):
         # Load prediction
         image_emb = np.load(f'{temp_embeddings_path}{".".join(image.split(".")[:-1])}.npy')
@@ -317,8 +320,10 @@ def predict_particles_maps(prediction_set, temp_embeddings_path, kmeans, your_cl
         prediction_cluster = np.zeros(temp_pred.shape)
         prediction_cluster[np.where(temp_pred == kmeans_cluster)] = 1
         prediction_maps.append(prediction_cluster)
-        print(image_i, end='\r')
-    print(f'{image_i+1} particle maps have been predicted.')
+        elapsed_time = round((time.time() - seg_maps_time) / 60, 2)
+        print(f"Segmentation map for {image_i+1}/{prediction_set_len} micrograph was processed, total minutes passed: {elapsed_time:.2f}.", end='\r')
+    elapsed_time = round((time.time() - seg_maps_time) / 60, 2)
+    print(f"Segmentation maps of {prediction_set_len} micrographs were processed in {elapsed_time:.2f} minutes.")
     prediction_maps = np.array(prediction_maps)
     # Save mask
     path_to_save_maps = f'./results/predicted_cluster_images/kmean_5_{config.pde}/'
@@ -521,6 +526,8 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
     None
     """
     star_file = []
+    particles_time = time.time()
+    pred_len = len(pred_c)
     for im_i, im_arr in enumerate(pred_c[:]):
         try:
             k_ = particle_diameter_512[v_ids[im_i][:5]]
@@ -585,7 +592,10 @@ def pick_particles(config, pred_c, v_ids, experiment, dset_name, res, cap_values
             star_file.append(f"{micrograph_name}.mrc {l} {c}")
             ###
         np.save(f"{path_to_save}{micrograph_name}.npy", np.array(im_out))
-        print(im_i+1, end='\r')
+        elapsed_time = round((time.time() - particles_time) / 60, 2)
+        print(f"Particles were picked for {im_i+1}/{pred_len} micrograph, total minutes passed: {elapsed_time:.2f}.", end='\r')
+    elapsed_time = round((time.time() - particles_time) / 60, 2)
+    print(f"Particles were picked for {pred_len} micrographs in {elapsed_time:.2f} minutes.")
     #Write star file
     write_star_file(f'./results/star_files/prediction_{dset_name}.star', star_file)
 
