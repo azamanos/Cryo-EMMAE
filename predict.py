@@ -91,7 +91,7 @@ def main():
         os.mkdir(temp_embeddings_path)
     print('Computing Embeddings of Micrographs.')
     emb_time = time.time()
-    for image in m_images:
+    for mi, image in enumerate(m_images):
         np.save(f'{temp_embeddings_path}{".".join(image.split(".")[:-1])}.npy',compute_image_latent_embeddings([image,], config, model, predict=True)[0])
         elapsed_time = round((time.time() - emb_time) / 60, 2)
         print(f"Micrograph {mi+1}/{m_list_len} was processed, total minutes passed: {elapsed_time:.2f}.", end='\r')
