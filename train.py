@@ -154,7 +154,7 @@ def main():
         kmeans = KMeans(config.compute_kmeans,random_state=0, n_init="auto").fit(x)
         if not config.kmeans_id:
             config.kmeans_id = 'default'
-        joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{config.compute_kmeans}_run_{config.exp_id}_epoch_{epoch}_finetuning.pkl')
+        joblib.dump(kmeans, f'./results/kmeans/kmeans_{config.compute_kmeans}_{config.exp_id}_finetune_epoch_{epoch}.pkl')
     return
 
 if __name__ == '__main__':

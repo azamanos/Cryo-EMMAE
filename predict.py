@@ -66,10 +66,11 @@ def main():
             config.mean, config.std = compute_mean_and_std(config)
             np.save(standarization_path, np.array([config.mean, config.std]))
             print('Done')
-    #Define kmeans path
-    kmeans_path = f'./results/kmeans/kmeans_4_{config.ec}_{config.e}.pkl'
-    if os.path.exists(kmeans_path):
-        kmeans = joblib.load(kmeans_path)
+    if not config.kmeans_path:
+        #Define kmeans path
+        config.kmeans_path = f'./results/kmeans/kmeans_4_{config.ec}_{config.e}.pkl'
+    if os.path.exists(config.kmeans_path):
+        kmeans = joblib.load(config.kmeans_path)
     else:
         print('Computing KMeans on Training Set.')
         #Compute kmeans on training set

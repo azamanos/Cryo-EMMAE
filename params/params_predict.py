@@ -39,6 +39,7 @@ def get_args():
     parser.add_argument('--pde', type=str, default=None, required=False, help='Predictions descriptive name')
     parser.add_argument('--ip', type=str, default=None, required=True, help='Provide the image path of your preprocessed mrc files.')
     parser.add_argument('--il', type=str, default=None, required=False, help='Provide image list in npy format file of your preprocessed mrc files.')
+    parser.add_argument('--kmeans_path', type=str, default=False, help='Give path for the kmeans')
     parser.add_argument('--red', type=bool, default=True, help='Argument to remove predicted embeddings, default True')
 
     parser.add_argument('--pd', type=int, default=None, required=False,help='Particle diameter in pixels for the original shape')
