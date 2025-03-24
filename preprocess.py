@@ -22,7 +22,7 @@ def main():
             else:
                 micrographs_list = os.listdir(config.md)
     if not os.path.exists(config.od):
-        os.mkdir(config.od)
+        os.makedirs(config.od)
     #Lenght of image list
     m_list_len = len(micrographs_list)
     #Secure that particle diameter is even number
