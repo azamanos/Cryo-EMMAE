@@ -29,6 +29,7 @@ def main():
         config.pretrain_standarization = True
     if config.pretrain_standarization:
         standarization_path = f'./results/standarization_info/standarization_{config.config_file.split(".")[0]}.npy'
+        print(standarization_path)
         if os.path.exists(standarization_path):
             config.mean, config.std = np.load(standarization_path)[:2]
     config.train_data_list = os.listdir(config.input_dataset_path)
