@@ -18,11 +18,19 @@ from train_module.mae_train_modules import train_loop, validation_loop
 from utils.torch_utils import load_checkpoint, save_checkpoint
 from utils.prediction_utils import compute_image_latent_embeddings
 from sklearn.cluster import KMeans
+import joblib
+
 
 def main():
     #torch.set_num_threads(1)
     #First load the arguments
     config = get_args()
+    if config.load_model:
+        config.pretrain_standarization = True
+    if config.pretrain_standarization:
+        standarization_path = f'./results/standarization_info/standarization_{config.c.split(".")[0]}.npy'
+        if os.path.exists(standarization_path):
+            config.mean, config.std = np.load(standarization_path)[:2]
     config.train_data_list = os.listdir(config.input_dataset_path)
     config.validation_data_list = os.listdir(config.input_dataset_path)
     config.keep_training_image = int(len(config.train_data_list)*config.initial_img_patches_num/config.training_batch_size)-1
@@ -137,6 +145,7 @@ def main():
                 misc.save_model(f'{config.checkpoints_path}/MAE_epoch_{epoch}.pth.tar', epoch, model, model_without_ddp, config.optimizer, config.loss_scaler)
     #In case you want to compute kmeans
     if config.compute_kmeans:
+        print(f'Computing Kmeans with {config.compute_kmeans} centers.')
         config.ip = config.input_dataset_path
         x = compute_image_latent_embeddings(config.train_data_list, config, model, resize=False)
         flat = x.shape[0]*x.shape[1]
@@ -145,6 +154,7 @@ def main():
         if not config.kmeans_id:
             config.kmeans_id = 'default'
         joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{cconfig.compute_kmeans}_run_{config.c.split(".")[0]}_epoch_{epoch}_finetuning.pkl')
+        np.save(f'./results/kmeans/kmeans_validation_sums_{cl}_run_{r}_epoch_{e}_{res}.npy', np.array([config.mean, config.std] + sums))
     return
 
 if __name__ == '__main__':

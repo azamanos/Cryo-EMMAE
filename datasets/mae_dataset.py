@@ -45,7 +45,8 @@ class Train_Dataset(Dataset):
         self.n_samples = len(self.x)
         self.x = np.array(self.x)
         if config.standarization:
-            config.mean, config.std = np.mean(self.x), np.std(self.x)
+            if not config.pretrain_standarization:
+                config.mean, config.std = np.mean(self.x), np.std(self.x)
             self.x = (self.x-config.mean)/config.std
     def __getitem__(self,index):
         return self.x[index]
