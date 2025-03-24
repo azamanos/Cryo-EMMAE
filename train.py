@@ -17,7 +17,7 @@ from datasets.mae_dataset import Train_Dataset, Validation_Dataset
 from train_module.mae_train_modules import train_loop, validation_loop
 from utils.torch_utils import load_checkpoint, save_checkpoint
 from utils.prediction_utils import compute_image_latent_embeddings
-
+from sklearn.cluster import KMeans
 
 def main():
     #torch.set_num_threads(1)
