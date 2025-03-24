@@ -137,6 +137,7 @@ def main():
                 misc.save_model(f'{config.checkpoints_path}/MAE_epoch_{epoch}.pth.tar', epoch, model, model_without_ddp, config.optimizer, config.loss_scaler)
     #In case you want to compute kmeans
     if config.compute_kmeans:
+        config.ip = config.input_dataset_path
         x = compute_image_latent_embeddings(config.train_data_list, config, model, resize=False)
         flat = x.shape[0]*x.shape[1]
         x = x.reshape(flat,-1)
