@@ -25,11 +25,11 @@ def main():
     #torch.set_num_threads(1)
     #First load the arguments
     config = get_args()
+    config.exp_id = config.config_file.split("/")[-1].split(".")[0]
     if config.load_model:
         config.pretrain_standarization = True
     if config.pretrain_standarization:
-        standarization_path = f'./results/standarization_info/standarization_{config.config_file.split(".")[0]}.npy'
-        print(standarization_path)
+        standarization_path = f'./results/standarization_info/standarization_{config.exp_id}.npy'
         if os.path.exists(standarization_path):
             config.mean, config.std = np.load(standarization_path)[:2]
     config.train_data_list = os.listdir(config.input_dataset_path)
@@ -154,8 +154,7 @@ def main():
         kmeans = KMeans(config.compute_kmeans,random_state=0, n_init="auto").fit(x)
         if not config.kmeans_id:
             config.kmeans_id = 'default'
-        joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{cconfig.compute_kmeans}_run_{config.config_file.split(".")[0]}_epoch_{epoch}_finetuning.pkl')
-        np.save(f'./results/kmeans/kmeans_validation_sums_{cl}_run_{r}_epoch_{e}_{res}.npy', np.array([config.mean, config.std] + sums))
+        joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{cconfig.compute_kmeans}_run_{config.exp_id}_epoch_{epoch}_finetuning.pkl')
     return
 
 if __name__ == '__main__':
