@@ -28,7 +28,7 @@ def main():
     if config.load_model:
         config.pretrain_standarization = True
     if config.pretrain_standarization:
-        standarization_path = f'./results/standarization_info/standarization_{config.c.split(".")[0]}.npy'
+        standarization_path = f'./results/standarization_info/standarization_{config.config_file.split(".")[0]}.npy'
         if os.path.exists(standarization_path):
             config.mean, config.std = np.load(standarization_path)[:2]
     config.train_data_list = os.listdir(config.input_dataset_path)
@@ -153,7 +153,7 @@ def main():
         kmeans = KMeans(config.compute_kmeans,random_state=0, n_init="auto").fit(x)
         if not config.kmeans_id:
             config.kmeans_id = 'default'
-        joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{cconfig.compute_kmeans}_run_{config.c.split(".")[0]}_epoch_{epoch}_finetuning.pkl')
+        joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{cconfig.compute_kmeans}_run_{config.config_file.split(".")[0]}_epoch_{epoch}_finetuning.pkl')
         np.save(f'./results/kmeans/kmeans_validation_sums_{cl}_run_{r}_epoch_{e}_{res}.npy', np.array([config.mean, config.std] + sums))
     return
 
