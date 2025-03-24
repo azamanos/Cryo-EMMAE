@@ -16,6 +16,7 @@ from model.model_utils import interpolate_pos_embed
 from datasets.mae_dataset import Train_Dataset, Validation_Dataset
 from train_module.mae_train_modules import train_loop, validation_loop
 from utils.torch_utils import load_checkpoint, save_checkpoint
+from utils.prediction_utils import compute_image_latent_embeddings
 
 
 def main():
@@ -134,6 +135,15 @@ def main():
                 model_checkpoint = {"state_dict": model.module.state_dict()}
             else:
                 misc.save_model(f'{config.checkpoints_path}/MAE_epoch_{epoch}.pth.tar', epoch, model, model_without_ddp, config.optimizer, config.loss_scaler)
+    #In case you want to compute kmeans
+    if config.compute_kmeans:
+        x = compute_image_latent_embeddings(config.train_data_list, config, model, resize=False)
+        flat = x.shape[0]*x.shape[1]
+        x = x.reshape(flat,-1)
+        kmeans = KMeans(config.compute_kmeans,random_state=0, n_init="auto").fit(x)
+        if not config.kmeans_id:
+            config.kmeans_id = 'default'
+        joblib.dump(kmeans, f'./results/kmeans/kmeans_validation_{cconfig.compute_kmeans}_run_{config.c.split(".")[0]}_epoch_{epoch}_finetuning.pkl')
     return
 
 if __name__ == '__main__':

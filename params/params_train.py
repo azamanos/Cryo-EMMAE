@@ -54,6 +54,8 @@ def get_args():
     parser.add_argument('--pin_memory', type=bool, default=True, help='Pin memory')
     parser.add_argument('--random_resized_crop', type=bool, default=False, help='Randomly Resize and Crop the initial micrograph')
     parser.add_argument('--rrc_crop_range', nargs='+', type=int, help='Range of random resize')
+    parser.add_argument('--compute_kmeans',  type=int, default=0, help='To compute kmeans and number of centers, default is 0.')
+    parser.add_argument('--kmeans_id', type=str, default=False, help='Give an ID for the kmeans')
 
     # Validation Parameters
     parser.add_argument('--sigmoid_cap', nargs='+', type=float, default=[0.5], help='Sigmoid cap')
