@@ -86,6 +86,19 @@ python predict.py -c runs/example.yaml \
 python predict.py -c runs/45.yaml --ec '45' --e '500' --ip 'test/images/' --id 'test'
 ```
 
+### Fine-tune on your dataset
+
+```bash
+python train.py -c runs/example.yaml \
+                --input_dataset_path 'Provide the image path of your preprocessed mrc files.' \
+                --load_model  'Epoch to load.' \
+                --keep_checkpoint 'Keep checpoints every other epoch.' \
+                --num_epochs 'Number of epochs to fine tune.'
+
+#Example
+python train.py -c 'runs/45.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/45/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50
+```
+
 ### Train
 To train the model prepare your yaml file from the given example.
 
