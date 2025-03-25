@@ -93,10 +93,12 @@ python train.py -c runs/example.yaml \
                 --input_dataset_path 'Provide the image path of your preprocessed mrc files.' \
                 --load_model  'Epoch to load.' \
                 --keep_checkpoint 'Keep checpoints every other epoch.' \
-                --num_epochs 'Number of epochs to fine tune.'
+                --num_epochs 'Number of epochs to fine tune.'\
+                --compute_kmeans 'Number of centers to compute the new kmeans for the latent representations.'
+
 
 #Example
-python train.py -c 'runs/45.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/45/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50
+python train.py -c 'runs/45.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/45/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50 --compute_kmeans 4
 ```
 
 ### Train
