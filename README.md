@@ -149,6 +149,8 @@ For queries and suggestions, please contact: andreas.zamanos@athenarc.gr
 
 85: trained with 10816
 
+All checkpoints from the above experiments are available [here](https://imisathena-my.sharepoint.com/:u:/g/personal/andreas_zamanos_athenarc_gr/EVEfngkl85FJp_KaL_JOGDABc0crog-V38E_ICI4VQJQEA?e=R9oPaw).
+
 <a id="citing-this-work"></a>
 ## Citing this work
 
