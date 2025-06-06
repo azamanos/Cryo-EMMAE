@@ -2,8 +2,8 @@
 input_dataset_path: '/storage/andreas.zamanos/cryoppp_lite/seg_data/input_1024_20_relion_contrast/'
 validation_dataset_path: '/storage/andreas.zamanos/cryoppp_lite/seg_data/input_512_20_relion_contrast/'
 target_dataset_path: '/storage/andreas.zamanos/cryoppp_lite/seg_data/input_512_20_relion_contrast/' #'/storage/andreas.zamanos/cryoppp_lite/seg_data/target_512_12_window_half_particle_diameter/'
-train_data_list: './datasets/data_lists/dall_train_list.npy'
-validation_data_list: './datasets/data_lists/dall_validation_list.npy'
+train_data_list: './datasets/data_lists/dall_train.npy'
+validation_data_list: './datasets/data_lists/dall_validation.npy'
 checkpoints_path: './checkpoints/45/'
 ### Parameters
 wandb_project: 'Cryo-MAE'
