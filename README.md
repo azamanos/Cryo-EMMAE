@@ -16,6 +16,7 @@ d. **Post-processing**: Convolution-based smoothing is applied on the prediction
 - [License](#license)
 - [Contributing](#contributing)
 - [Contact](#contact)
+- [Clarification](#clarification)
 - [Citing this work](#citing-this-work)
 
 <a id="description"></a>
@@ -83,7 +84,7 @@ python predict.py -c runs/example.yaml \
                   --id  'Give the identifier of your dataset'
 
 #Example
-python predict.py -c runs/45.yaml --ec '45' --e '500' --ip 'test/images/' --id 'test'
+python predict.py -c 'runs/trained_with_20_EMPIARS.yaml' --ec 'trained_with_20_EMPIARS' --e '500' --ip 'test/images/' --id 'test'
 ```
 
 ### Fine-tune on your dataset
@@ -98,7 +99,7 @@ python train.py -c runs/example.yaml \
 
 
 #Example
-python train.py -c 'runs/45.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/45/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50 --compute_kmeans 4
+python train.py -c 'runs/trained_with_20_EMPIARS.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/trained_with_20_EMPIARS/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50 --compute_kmeans 4
 ```
 
 ### Train
@@ -113,11 +114,11 @@ Evaluate the picked particles based on the ground truth data, uploaded at the ze
 Give the same experiment, prediction-description, and prediction-set-path as in prediction step, the ground-truth-path is in default at "./results/target_512_20_npy/"
 
 ```bash
-python evaluate.py  --experiment 'example' \
-                    --prediction-description 'example_prediction_set' \
-                    --prediction-set-path 'path to prediction list in npy format,
-                                           e.g. ./datasets/data_lists/10291_validation.npy' \
-                    --ground-truth-path './results/target_512_20_npy/'
+python evaluate.py  --path_of_pred 'path to directory of predictions' \
+                    --ground_truth_path './results/target_512_20_npy/'
+
+#Example
+python evaluate.py --path_of_pred results/prediction_83_10077_npy_1024/ --ground_truth_path results/target_512_20_npy/
 ```
 
 <a id="license"></a>
@@ -134,6 +135,19 @@ If you encounter any issues or have suggestions for improvement, please create a
 ## Contact
 
 For queries and suggestions, please contact: andreas.zamanos@athenarc.gr
+
+
+<a id="Clarification"></a>
+## Clarification of Experiment Numbers
+45: trained with 20 EMPIARs 
+
+82: trained with 10291
+
+83: trained with 10077
+
+84: trained with 10590
+
+85: trained with 10816
 
 <a id="citing-this-work"></a>
 ## Citing this work
