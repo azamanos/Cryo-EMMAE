@@ -34,8 +34,8 @@ def get_args():
     parser.add_argument('--initial_img_patches_num', type=int, default=64, help='Number of patches of the initial image')
 
     # Prediction Parameters
-    parser.add_argument('--ec', type=int, default=None, required=True,help='Experiment checkpoint number to load')
-    parser.add_argument('--e', type=int, default=None, required=True, help='Number of epoch to load')
+    parser.add_argument('--ec', type=str, default=None, required=True,help='Experiment name to load the checkpoint.')
+    parser.add_argument('--e', type=str, default=None, required=True, help='Number of epoch to load.')
     parser.add_argument('--pde', type=str, default=None, required=False, help='Predictions descriptive name')
     parser.add_argument('--ip', type=str, default=None, required=True, help='Provide the image path of your preprocessed mrc files.')
     parser.add_argument('--il', type=str, default=None, required=False, help='Provide image list in npy format file of your preprocessed mrc files.')

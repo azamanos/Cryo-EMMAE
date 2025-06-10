@@ -84,7 +84,7 @@ python predict.py -c runs/example.yaml \
                   --id  'Give the identifier of your dataset'
 
 #Example
-python predict.py -c 'runs/trained_with_20_EMPIARS.yaml' --ec 'trained_with_20_EMPIARS' --e '500' --ip 'test/images/' --id 'test'
+python predict.py -c 'runs/45.yaml' --ec '45' --e '500' --ip 'test/images/' --id 'test'
 ```
 
 ### Fine-tune on your dataset
@@ -99,7 +99,7 @@ python train.py -c runs/example.yaml \
 
 
 #Example
-python train.py -c 'runs/trained_with_20_EMPIARS.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/trained_with_20_EMPIARS/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50 --compute_kmeans 4
+python train.py -c 'runs/45.yaml' --input_dataset_path 'test/images/' --load_model './checkpoints/45/MAE_epoch_500.pth.tar' --keep_checkpoints 10 --num_epochs 50 --compute_kmeans 4
 ```
 
 ### Train
