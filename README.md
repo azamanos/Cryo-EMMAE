@@ -66,10 +66,11 @@ and the output directory to save the preprocessed micrographs.
 python preprocess.py --md 'input_directory_path' \
                      --t  'True if mrc file type, False if image file type, default is True' \
                      --pd 'particle diameter as integer,
-                           in pixel size of the original image, e.g. 224, default is 200' \
+                     in pixel size of the original image, e.g. 224, default is 200' \
                      --od 'output_directory_path/' \
                      --id 'Give an identifier to your dataset' \
-                     --cpmc 'Make this True in case you want to preprocess motion corrected micrographs from CryoSparc job'
+                     --cpmc 'Make this True in case you want to preprocess
+                     motion corrected micrographs from CryoSparc job'
 
 #Example
 python preprocess.py --md 'test/mrcs/' --od 'test/images/' --id 'test'
