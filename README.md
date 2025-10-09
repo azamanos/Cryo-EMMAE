@@ -60,13 +60,16 @@ give micrograph image directory,
 the particle diameter of your protein in pixels of the original micrograph shape,
 and the output directory to save the preprocessed micrographs.
 
+#### Important if you use motion corrected micrographs from cryosparc, make true the argument "--cpmc"
+
 ```bash
 python preprocess.py --md 'input_directory_path' \
                      --t  'True if mrc file type, False if image file type, default is True' \
                      --pd 'particle diameter as integer,
-                                          in pixel size of the original image, e.g. 224, default is 200' \
+                           in pixel size of the original image, e.g. 224, default is 200' \
                      --od 'output_directory_path/' \
-                     --id 'Give an identifier to your dataset'
+                     --id 'Give an identifier to your dataset' \
+                     --cpmc 'Make this True in case you want to preprocess motion corrected micrographs from CryoSparc job'
 
 #Example
 python preprocess.py --md 'test/mrcs/' --od 'test/images/' --id 'test'
@@ -154,4 +157,4 @@ All checkpoints from the above experiments are available [here](https://imisathe
 <a id="citing-this-work"></a>
 ## Citing this work
 
-If you use this code in your research, please cite the original work.
+If you use this code in your research, please cite the original work: A. Zamanos, P. Koromilas, G. Bouritsas, P. L. Kastritis, and Y. Panagakis, “Self-supervised learning for generalizable particle picking in cryo-EM micrographs,” Cell Reports Methods, vol. 5, no. 7, 2025, Elsevier.
